@@ -6,7 +6,6 @@
   <title>Clinic Counter</title>
   <style>
     html, body {
-      height: 100%;
       margin: 0;
       padding: 0;
       font-family: sans-serif;
@@ -14,31 +13,48 @@
     }
 
     body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
       text-align: center;
+      padding: 40px 20px;
     }
 
     .counter-section {
       display: flex;
       justify-content: center;
-      gap: 50px;
+      align-items: center;
+      gap: 40px;
       flex-wrap: wrap;
+      max-width: 900px;
+      margin: 0 auto;
     }
 
     .counter-box {
-      font-size: 50px;
+      font-size: 32px;
       font-weight: bold;
       color: #222;
+      flex: 1 1 200px;
     }
 
     .label {
-      font-size: 20px;
+      font-size: 14px;
       color: #666;
       font-weight: normal;
       margin-top: 5px;
+    }
+
+    @media (max-width: 600px) {
+      .counter-section {
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .counter-box {
+        width: 100%;
+        font-size: 28px;
+      }
+
+      .label {
+        font-size: 13px;
+      }
     }
   </style>
 </head>
