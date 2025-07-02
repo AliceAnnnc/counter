@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clinic Counter</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: white;
+      padding: 50px 0;
+      margin: 0;
+    }
+    .counter-section {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+    .counter-box {
+      font-size: 32px;
+      font-weight: bold;
+      color: #222;
+    }
+    .label {
+      font-size: 14px;
+      color: #666;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="counter-section">
+    <div class="counter-box">
+      <div class="count" data-target="8">0</div>
+      <div class="label">Years of Healthcare Experience</div>
+    </div>
+    <div class="counter-box">
+      <div class="count" data-target="500">0</div>
+      <div class="label">Clinic Served</div>
+    </div>
+    <div class="counter-box">
+      <div class="count" data-target="900">0</div>
+      <div class="label">Trained Healthcare Professionals</div>
+    </div>
+  </div>
+
+  <script>
+    const counters = document.querySelectorAll('.count');
+    counters.forEach(counter => {
+      counter.innerText = '0';
+      const updateCounter = () => {
+        const target = +counter.getAttribute('data-target');
+        const c = +counter.innerText;
+        const increment = target / 100;
+
+        if (c < target) {
+          counter.innerText = `${Math.ceil(c + increment)}`;
+          setTimeout(updateCounter, 20);
+        } else {
+          counter.innerText = `${target}+`;
+        }
+      };
+      updateCounter();
+    });
+  </script>
+</body>
+</html>
