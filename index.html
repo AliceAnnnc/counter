@@ -5,55 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Clinic Counter</title>
   <style>
-    /*
-      !!! IMPORTANT CSS FIX !!!
-      The main problem is NOT in the code below, but in the CSS for the
-      container that holds your whole page (the white card).
-
-      In your other CSS file, find the style rule for that main container.
-      It might be on the `body`, or a class like `.page-wrapper` or `.content-card`.
-
-      1. LOOK FOR THIS:
-         height: 100vh;
-         OR
-         height: 100%;
-
-      2. CHANGE IT TO THIS to allow the page to scroll:
-         min-height: 100vh;
-
-      3. ALSO, if you find this rule on the container, REMOVE IT:
-         overflow: hidden;
-    */
-
     html, body {
       margin: 0;
       padding: 0;
       font-family: sans-serif;
-      /* The background should be on the body to allow scrolling */
-      background: white; 
+      background: white;
+      box-sizing: border-box;
     }
 
     body {
-      text-align: center;
-      /* Padding might be better on a specific container, but this is ok */
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      flex-direction: column;
       padding: 40px 20px;
+      min-height: 100vh;
     }
 
     .counter-section {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 40px;
       flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
       max-width: 900px;
       margin: 0 auto;
+      gap: 40px;
     }
 
     .counter-box {
-      font-size: 32px;
+      flex: 1 1 250px;
+      text-align: center;
+    }
+
+    .count {
+      font-size: 36px;
       font-weight: bold;
       color: #222;
-      flex: 1 1 200px;
     }
 
     .label {
@@ -66,12 +53,12 @@
     @media (max-width: 600px) {
       .counter-section {
         flex-direction: column;
+        align-items: center;
         gap: 30px;
       }
 
-      .counter-box {
-        width: 100%;
-        font-size: 28px;
+      .count {
+        font-size: 30px;
       }
 
       .label {
@@ -81,7 +68,6 @@
   </style>
 </head>
 <body>
-  <!-- This is your existing HTML, which is correct. -->
   <div class="counter-section">
     <div class="counter-box">
       <div class="count" data-target="8">0</div>
@@ -97,38 +83,28 @@
     </div>
   </div>
 
-  <!-- 
-    JAVASCRIPT FIX:
-    This is an improved version of your script. It uses `requestAnimationFrame`
-    for a much smoother and more performant animation than `setTimeout`.
-  -->
   <script>
-    const counters = document.querySelectorAll('.count');
+    document.addEventListener("DOMContentLoaded", () => {
+      const counters = document.querySelectorAll('.count');
 
-    counters.forEach(counter => {
-      const target = +counter.getAttribute('data-target');
-      let current = 0;
-      // The increment determines the animation speed. Higher divisor = slower.
-      const increment = target / 100;
+      counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        let current = 0;
+        const increment = target / 100;
 
-      const updateCounter = () => {
-        // Continue animation as long as the current count is less than the target
-        if (current < target) {
-          current += increment;
-          // We use Math.ceil to count up and Math.min to prevent overshooting the target
-          counter.innerText = Math.ceil(Math.min(current, target));
-          // Use requestAnimationFrame for the next update cycle
-          requestAnimationFrame(updateCounter);
-        } else {
-          // Once finished, display the final target number with a plus
-          counter.innerText = `${target}+`;
-        }
-      };
-      
-      // Start the animation
-      updateCounter();
+        const update = () => {
+          if (current < target) {
+            current += increment;
+            counter.textContent = Math.ceil(Math.min(current, target));
+            requestAnimationFrame(update);
+          } else {
+            counter.textContent = `${target}+`;
+          }
+        };
+
+        update();
+      });
     });
   </script>
-
 </body>
 </html>
