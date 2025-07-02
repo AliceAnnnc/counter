@@ -10,59 +10,47 @@
       padding: 0;
       font-family: sans-serif;
       background: white;
-      box-sizing: border-box;
     }
 
     body {
-      display: flex;
-      justify-content: center;
-      align-items: start;
-      flex-direction: column;
+      text-align: center;
       padding: 40px 20px;
-      min-height: 100vh;
     }
 
     .counter-section {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      width: 100%;
+      gap: 40px;
+      flex-wrap: wrap;
       max-width: 900px;
       margin: 0 auto;
-      gap: 40px;
     }
 
     .counter-box {
-      flex: 1 1 250px;
-      text-align: center;
-    }
-
-    .count {
-      font-size: 50px;
+      font-size: 32px;
       font-weight: bold;
       color: #222;
+      flex: 1 1 200px;
     }
 
     .label {
-      font-size: 20px;
+      font-size: 14px;
       color: #666;
       font-weight: normal;
       margin-top: 5px;
     }
 
     @media (max-width: 600px) {
-      .counter-section {
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
-      }
-
-      .count {
-        font-size: 30px;
+      .counter-box {
+        font-size: 28px;
       }
 
       .label {
         font-size: 13px;
+      }
+
+      .counter-section {
+        gap: 20px;
       }
     }
   </style>
@@ -84,26 +72,22 @@
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const counters = document.querySelectorAll('.count');
-
-      counters.forEach(counter => {
+    const counters = document.querySelectorAll('.count');
+    counters.forEach(counter => {
+      counter.innerText = '0';
+      const updateCounter = () => {
         const target = +counter.getAttribute('data-target');
-        let current = 0;
+        const c = +counter.innerText;
         const increment = target / 100;
 
-        const update = () => {
-          if (current < target) {
-            current += increment;
-            counter.textContent = Math.ceil(Math.min(current, target));
-            requestAnimationFrame(update);
-          } else {
-            counter.textContent = `${target}+`;
-          }
-        };
-
-        update();
-      });
+        if (c < target) {
+          counter.innerText = `${Math.ceil(c + increment)}`;
+          setTimeout(updateCounter, 20);
+        } else {
+          counter.innerText = `${target}+`;
+        }
+      };
+      updateCounter();
     });
   </script>
 </body>
